@@ -49,10 +49,10 @@ jobs:
       - uses: actions/checkout@v2
         with:
           token: ${{ secrets.GH_PUSH_TO_REPO_TOKEN }}
-      - uses: actions/setup-java@v2
+      - uses: actions/setup-node@v2
         with:
-          java-version: '17'
-          distribution: 'zulu'
+          node-version: '17'
+          cache: 'yarn'
       - uses: markelliot/update-yarn-deps@v1
         with:
           push-to-repo-token: ${{ secrets.GH_PUSH_TO_REPO_TOKEN }}
