@@ -51,7 +51,8 @@ runs:
         git config --local user.name '${{ inputs.commit-user }}'
         git config --local user.email '${{ inputs.commit-email }}'
         git checkout -B "${{ inputs.working-branch }}"
-        git commit -am '${{ inputs.commit-title }}'
+        git add .
+        git commit -m '${{ inputs.commit-title }}'
 
         # only push changes if different
         if [ -n "$(git ls-remote --exit-code origin '${{ inputs.working-branch }}')" && -z "$(git diff 'origin/${{ inputs.working-branch }}')" ]; then
@@ -59,7 +60,7 @@ runs:
           exit 0
         fi
         git push origin -f '${{ inputs.working-branch }}'
-        gh pr create -B "${{ inputs.primary-branch }}" --title "${{ inputs.pr-title }}" --body ""
+        gh pr create -B '${{ inputs.primary-branch }}' --title '${{ inputs.pr-title }}' --body ""
       env:
-        GITHUB_TOKEN: "${{ inputs.push-to-repo-token }}"
+        GITHUB_TOKEN: ${{ inputs.push-to-repo-token }}
 
