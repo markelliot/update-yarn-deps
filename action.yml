@@ -60,7 +60,7 @@ runs:
           exit 0
         fi
         git push origin -f '${{ inputs.working-branch }}'
-        gh pr create -B '${{ inputs.primary-branch }}' --title '${{ inputs.pr-title }}' --body ""
+        gh pr create -B '${{ inputs.primary-branch }}' --title '${{ inputs.pr-title }}' --body "" || true
       env:
         GITHUB_TOKEN: ${{ inputs.push-to-repo-token }}
 
