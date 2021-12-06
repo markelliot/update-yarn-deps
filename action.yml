@@ -40,6 +40,9 @@ runs:
     - name: Check for updates
       shell: bash
       run: yarn up '*'
+    - name: Complete update by re-running setup
+      shell: bash
+      run: yarn install
     - name: Create branch and commit changes
       shell: bash
       run: |
