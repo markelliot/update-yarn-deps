@@ -62,8 +62,9 @@ runs:
               git push origin -f '${{ inputs.working-branch }}'
 
               function diff_package_json {
-                  packages_new="$(git diff package.json | grep '^\+ ')"
-                  packages_old="$(git diff package.json | grep '^\- ')"
+                  packages_diff="$(git diff '${{ inputs.primary-branch }}' package.json)"
+                  packages_new="$(echo "${packages_diff}" | grep '^\+ ')"
+                  packages_old="$(echo "${packages_diff}" | grep '^\- ')"
                   echo "${packages_new}" | while read -r change
                   do
                       package=`echo "${change}" | sed 's/.*"\([^\"]*\)":.*/\1/'`
