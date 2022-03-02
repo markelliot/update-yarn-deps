@@ -60,6 +60,24 @@ runs:
                   exit 0
               fi
               git push origin -f '${{ inputs.working-branch }}'
-              gh pr create -B '${{ inputs.primary-branch }}' --title '${{ inputs.pr-title }}' --body "" || true
+
+              function diff_package_json {
+                  packages_new="$(git diff package.json | grep '^\+ ')"
+                  packages_old="$(git diff package.json | grep '^\- ')"
+                  echo "${packages_new}" | while read -r change
+                  do
+                      package=`echo "${change}" | sed 's/.*"\([^\"]*\)":.*/\1/'`
+                      new_version=`echo "${change}" | sed 's/.*: "\([^\"]*\)".*/\1/' | sed 's/^[^0-9]//'`
+                      old_version=`echo "${packages_old}" | grep "${package}" | sed 's/.*: "\([^\"]*\)".*/\1/' | sed 's/^[^0-9]//'`
+                      echo "* \`${package}:{${old_version} -> ${new_version}}\`"
+                  done
+              }
+              updates=`diff_package_json`
+
+              # create the PR if necessary
+              gh pr create -B '${{ inputs.primary-branch }}' --title '${{ inputs.pr-title }}' --body "${updates}" || true
+
+              # update the PR body to set versions if different than creation
+              gh pr edit --body "${updates}"
           env:
               GITHUB_TOKEN: ${{ inputs.push-to-repo-token }}
