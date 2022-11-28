@@ -1,5 +1,5 @@
 name: Update yarn dependencies
-description: Run `yarn up '*'` and make a PR
+description: Run `yarn up -R '*'` and make a PR
 branding:
     icon: arrow-up-circle
     color: blue
@@ -39,7 +39,7 @@ runs:
           run: yarn install
         - name: Check for updates
           shell: bash
-          run: yarn up '*'
+          run: yarn up -R '*'
         - name: Create branch and commit changes
           shell: bash
           run: |
