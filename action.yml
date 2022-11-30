@@ -73,6 +73,10 @@ runs:
                 new_version=`echo "${change}" | sed 's/.*: "\([^\"]*\)".*/\1/' | sed 's/^[^0-9]//'`
                 old_version=`echo "${packages_old}" | grep "${package}" | sed 's/.*: "\([^\"]*\)".*/\1/' | sed 's/^[^0-9]//'`
                 echo "* \`${package}:{${old_version} -> ${new_version}}\`"
+                if [[ -z "${new_version"} ]]
+                then
+                  echo "* \`${package}:{${old_version} -> ${new_version}}\`"
+                fi
             done
         }
         updates=`diff_package_json`
