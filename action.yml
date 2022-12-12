@@ -39,7 +39,9 @@ runs:
       run: yarn install
     - name: Check for updates
       shell: bash
-      run: yarn up -R '*'
+      run: |
+        yarn up '*'
+        yarn up -R '*'
     - name: Create branch and commit changes
       shell: bash
       run: |
