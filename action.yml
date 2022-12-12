@@ -75,7 +75,7 @@ runs:
                 do
                     package=`echo "${change}" | sed 's/.*"\([^\"]*\)":.*/\1/'`
                     new_version=`echo "${change}" | sed 's/.*: "\([^\"]*\)".*/\1/' | sed 's/^[^0-9]//'`
-                    old_version=`echo "${packages_old}" | grep "${package}" | sed 's/.*: "\([^\"]*\)".*/\1/' | sed 's/^[^0-9]//'`
+                    old_version=`echo "${packages_old}" | grep "\"${package}\"" | sed 's/.*: "\([^\"]*\)".*/\1/' | sed 's/^[^0-9]//'`
                     echo "* \`${package}:{${old_version} -> ${new_version}}\`"
                 done
             else
