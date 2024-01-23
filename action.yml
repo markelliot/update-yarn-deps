@@ -30,6 +30,9 @@ inputs:
     description: the title to use for the PR
     required: true
     default: Auto-update dependencies and plugins
+  format:
+    description: optionally run `yarn format` (default false)
+    default: false
 
 runs:
   using: composite
@@ -42,6 +45,10 @@ runs:
       run: |
         yarn up '*'
         yarn up -R '*'
+    - name: Format
+      if: inputs.format == 'true'
+      shell: bash
+      run: yarn format
     - name: Create branch and commit changes
       shell: bash
       run: |
